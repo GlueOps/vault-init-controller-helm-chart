@@ -10,17 +10,17 @@ namespaceOverride:
 # -- Docker image configuration
 image:
   # -- Docker registry
-  registry: docker.io
+  registry: ghcr.io
   # -- Docker image repository
-  repository: balajis30/vault-init-controller
+  repository: glueops/vault-init-controller
   # -- Docker image tag
-  tag: 1.0.0
+  tag: develop
   # -- Command to run in the Docker container
   command:
-    - /bin/bash
-    - -ec
-    - 'python3'
-    - "/app/vault-init/main.py"
+    # - /bin/bash
+    # - -ec
+    # - 'python3'
+    # - "/app/vault-init/main.py"
   args:
 
   # -- Port the application will listen on (>1024)
