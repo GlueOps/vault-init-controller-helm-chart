@@ -47,6 +47,32 @@ Allow the release namespace to be overridden
 {{- end -}}
 {{- end -}}
 
+{{/*Create the name of the role to use*/}}
+{{- define "chart.roleName" -}}
+{{- if hasKey .Values.role "name" -}}
+{{ .Values.role.name }}
+{{- else if and .Values.deployment.enabled (hasKey .Values.deployment "role") -}}
+{{ .Values.deployment.role.name }}
+{{- else if and .Values.statefulSet.enabled (hasKey .Values.statefulSet "role") -}}
+{{ .Values.statefulSet.role.name }}
+{{- else -}}
+{{ include "app.name" . }}
+{{- end -}}
+{{- end -}}
+
+{{/*Create the name of the rolebinding to use*/}}
+{{- define "chart.rolebindingName" -}}
+{{- if hasKey .Values "rolebinding" -}}
+{{ .Values.rolebinding.name }}
+{{- else if and .Values.deployment.enabled (hasKey .Values.deployment "rolebinding") -}}
+{{ .Values.deployment.rolebinding.name }}
+{{- else if and .Values.statefulSet.enabled (hasKey .Values.statefulSet "rolebinding") -}}
+{{ .Values.statefulSet.rolebinding.name }}
+{{- else -}}
+{{ include "app.name" . }}
+{{- end -}}
+{{- end -}}
+
 {{/* Shared labels used for selector */}}
 {{- define "chart.appLabels" }}
 {{- if .suffixName }}

@@ -1,7 +1,7 @@
 # -- Name of the application
-appName: "example-app"
+appName: "vault-init-controller"
 # -- Version of the application
-appVersion: "0.0.1"
+0.1.0 "0.1.0"
 # -- Environment of the application
 appEnv: "dev"
 # -- Override the default namespace
@@ -12,15 +12,15 @@ image:
   # -- Docker registry
   registry: docker.io
   # -- Docker image repository
-  repository: nginx
+  repository: balajis30/vault-init-controller
   # -- Docker image tag
   tag: 1.0.0
   # -- Command to run in the Docker container
   command:
-  # - /bin/bash
-  # - -ec
-  # - 'sleep infinity'
-  # -- Arguments to pass to the command
+    - /bin/bash
+    - -ec
+    - 'python3'
+    - "/app/vault-init/main.py"
   args:
 
   # -- Port the application will listen on (>1024)
@@ -40,7 +40,7 @@ commonLabels:
 # -- Deployment configuration
 deployment:
   # -- Whether to create a Deployment
-  enabled: false
+  enabled: true
   # -- Annotations for the Deployment
   annotations:
     # deploy.annotations.example.com/name: deploy
@@ -95,10 +95,24 @@ deployment:
 
   # -- List of environment variables
   envVariables:
-  # - name: FOO
-  #   value: "bar"
-  # - name: BUZZ
-  #   value: "fizz"
+    - name: NAMESPACE
+      value: "glueops-core-vault"
+    - name: VAULT_STS_NAME
+      value: "vault"
+    - name: VAULT_LABEL_SELECTOR
+      value: "app.kubernetes.io/name=vault"
+    - name: VAULT_K8S_SERVICE_NAME
+      value: "vault-internal"
+    - name: RECONCILE_PERIOD
+      value: "10"
+    - name: SERVICE_PORT
+      value: "8200"
+    - name: VAULT_S3_BUCKET
+      value: "vault-backend-glueops"
+    - name: VAULT_SECRET_FILE
+      value: "vault-config.json"
+    - name: PAUSE_RECONCILE
+      value: "false"
 
   # -- List of secret environment variables
   # variable   - name of env variable inside container
@@ -141,9 +155,9 @@ deployment:
   # -- Service account configuration
   serviceAccount:
     # -- Whether to use the service account for deployment
-    enabled: false
+    enabled: true
     # -- Name of the service account
-    # name:
+    name: vault-init-controller
 
   # -- Node selector for scheduling the pods
   nodeSelector: 
@@ -694,14 +708,20 @@ podDisruptionBudget:
 # -- Service Account configuration
 serviceAccount:
   # -- Whether to create a Service Account
-  create: false
+  create: true
   # -- Name of the Service Account
-  # name:
+  name: vault-init-controller
   # -- Labels for the Service Account
   labels:
   # -- Annotations for the Service Account
   annotations:
   # serviceAccount.annotations.example.com/foo: bar
+
+# -- Role for the service account
+role:
+  podPermissions:
+    - verbs: ["get", "list", "watch"]
+      resourceNames: []
 
 ##########################################################
 # Service
