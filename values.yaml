@@ -1,7 +1,7 @@
 # -- Name of the application
 appName: "vault-init-controller"
 # -- Version of the application
-0.1.0 "0.1.0"
+appVersion: "0.1.0"
 # -- Environment of the application
 appEnv: "dev"
 # -- Override the default namespace
