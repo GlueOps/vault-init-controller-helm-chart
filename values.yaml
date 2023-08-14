@@ -113,6 +113,10 @@ deployment:
       value: "vault-config.json"
     - name: PAUSE_RECONCILE
       value: "false"
+    - name: VAULT_KEY_SHARES
+      value: "1"
+    - name: VAULT_KEY_THRESHOLD
+      value: "1"
 
   # -- List of secret environment variables
   # variable   - name of env variable inside container
