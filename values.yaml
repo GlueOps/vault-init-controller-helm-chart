@@ -14,7 +14,7 @@ image:
   # -- Docker image repository
   repository: glueops/vault-init-controller
   # -- Docker image tag
-  tag: develop
+  tag: develop@sha256:78a82e72827313bb14e2b2566581196d7308e2f9754b0147dbd72f245f8d7e3b
   # -- Command to run in the Docker container
   command:
     # - /bin/bash
